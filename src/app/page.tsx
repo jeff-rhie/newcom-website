@@ -1,7 +1,7 @@
-"use client"; // 이 파일이 클라이언트 컴포넌트임을 명시합니다.
+"use client";
 
 import { useState, useEffect } from "react";
-// Image 컴포넌트와 CSS 모듈 import를 제거했습니다.
+// next/image와 page.module.css import를 제거했습니다.
 
 // 1. 언어별 회사 소개 텍스트 데이터 (JSX 요소로 변경)
 const introductions = {
@@ -11,7 +11,7 @@ const introductions = {
       <br /><br />
       Our mission is to enrich lives and build a vibrant global community through our games. Since our founding in 2025, we have successfully launched our debut title,{' '}
       <a href="https://nyanpan.co/en" target="_blank" rel="noopener noreferrer" className="gameLink">
-        <strong>'NyanPan Co.'</strong>
+        <strong>&apos;NyanPan Co.&apos;</strong>
       </a>
       {' '}to a worldwide audience.
     </>
@@ -22,7 +22,7 @@ const introductions = {
       <br /><br />
       드림볼의 미션은 게임을 통해 플레이어의 삶을 풍요롭게 만들고, 활기 넘치는 글로벌 커뮤니티를 구축하는 것입니다. 저희는 2025년 설립 이후, 데뷔작{' '}
       <a href="https://nyanpan.co/ko" target="_blank" rel="noopener noreferrer" className="gameLink">
-        <strong>'냥빵냥빵 두근두근냥빵'</strong>
+        <strong>&apos;냥빵냥빵 두근두근냥빵&apos;</strong>
       </a>
       을 글로벌 플레이어들에게 성공적으로 선보였습니다.
     </>
@@ -41,21 +41,18 @@ const introductions = {
 };
 
 export default function Home() {
-  // 2. 테마와 언어를 관리하는 상태(State)
-  const [theme, setTheme] = useState("light"); // 'light' 또는 'dark'
-  const [language, setLanguage] = useState<"en" | "ko" | "jp">("en"); // 언어 타입 지정
+  const [theme, setTheme] = useState("light");
+  const [language, setLanguage] = useState<"en" | "ko" | "jp">("en");
 
-  // 테마가 변경될 때마다 body의 클래스를 바꿔주는 효과(Effect)
   useEffect(() => {
+    // 테마가 변경될 때 body의 클래스를 직접 조작합니다.
     document.body.className = theme;
   }, [theme]);
 
-  // 3. 테마 변경 핸들러
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-  // 4. 언어 변경 핸들러
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setLanguage(e.target.value as "en" | "ko" | "jp");
   };
@@ -63,7 +60,6 @@ export default function Home() {
   return (
     <>
       <div className="container">
-        {/* 헤더: 테마 토글, 언어 선택 */}
         <header className="header">
           <button onClick={toggleTheme} className="themeToggle">
             {theme === "light" ? "☀️" : "🌙"}
@@ -79,35 +75,27 @@ export default function Home() {
           </select>
         </header>
 
-        {/* 메인 콘텐츠: 로고 이미지와 소개글 */}
         <main className="main">
           <div className="contentWrapper">
             <div className="logoWrapper">
-              {/* 라이트 모드 이미지 - 표준 img 태그로 변경 */}
+              {/* 표준 HTML `<img>` 태그를 사용하도록 변경 */}
               <img
                 src="/images/light-logo.png"
                 alt="Dreamball Inc. Logo"
-                className={`logo ${
-                  theme === 'light' ? 'visible' : 'hidden'
-                }`}
+                className={`logo ${theme === 'light' ? 'visible' : 'hidden'}`}
               />
-              {/* 다크 모드 이미지 - 표준 img 태그로 변경 */}
               <img
                 src="/images/dark-logo.png"
                 alt="Dreamball Inc. Logo Dark"
-                className={`logo ${
-                  theme === 'dark' ? 'visible' : 'hidden'
-                }`}
+                className={`logo ${theme === 'dark' ? 'visible' : 'hidden'}`}
               />
             </div>
-            {/* 소개글을 렌더링하는 부분 */}
             <div className="introduction">
               {introductions[language]}
             </div>
           </div>
         </main>
 
-        {/* 푸터: 저작권 정보 */}
         <footer className="footer">
           <p>© 2025 Dreamball Inc. All Rights Reserved.</p>
         </footer>
@@ -150,6 +138,7 @@ export default function Home() {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          z-index: 10;
         }
         .themeToggle {
           background: none;
@@ -211,7 +200,7 @@ export default function Home() {
         }
         .introduction {
           font-family: 'Noto Serif KR', serif;
-          font-size: 1.1rem;
+          font-size: 1.5rem;
           line-height: 1.6;
           margin-top: 2rem;
           max-width: 600px;
