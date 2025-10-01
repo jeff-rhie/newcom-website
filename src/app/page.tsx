@@ -208,7 +208,7 @@ export default function Home() {
         }
         .introduction {
           font-family: 'Noto Serif KR', serif;
-          font-size: 1.5rem;
+          font-size: 1.1rem;
           line-height: 1.6;
           margin-top: 2rem;
           max-width: 600px;
