@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-// next/image와 page.module.css import를 제거했습니다.
 
 // 1. 언어별 회사 소개 텍스트 데이터 (JSX 요소로 변경)
 const introductions = {
@@ -43,11 +42,20 @@ const introductions = {
 export default function Home() {
   const [theme, setTheme] = useState("light");
   const [language, setLanguage] = useState<"en" | "ko" | "jp">("en");
+  // 컴포넌트가 클라이언트에서 마운트되었는지 확인하는 상태 추가
+  const [isMounted, setIsMounted] = useState(false);
+
+  // 첫 렌더링 이후에 isMounted 상태를 true로 변경
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     // 테마가 변경될 때 body의 클래스를 직접 조작합니다.
-    document.body.className = theme;
-  }, [theme]);
+    if (isMounted) {
+      document.body.className = theme;
+    }
+  }, [theme, isMounted]);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -78,16 +86,16 @@ export default function Home() {
         <main className="main">
           <div className="contentWrapper">
             <div className="logoWrapper">
-              {/* 표준 HTML `<img>` 태그를 사용하도록 변경 */}
+              {/* isMounted 상태에 따라 클래스를 동적으로 부여하여 깜박임 현상 제거 */}
               <img
                 src="/images/light-logo.png"
                 alt="Dreamball Inc. Logo"
-                className={`logo ${theme === 'light' ? 'visible' : 'hidden'}`}
+                className={`logo ${isMounted && theme === 'light' ? 'visible' : 'hidden'}`}
               />
               <img
                 src="/images/dark-logo.png"
                 alt="Dreamball Inc. Logo Dark"
-                className={`logo ${theme === 'dark' ? 'visible' : 'hidden'}`}
+                className={`logo ${isMounted && theme === 'dark' ? 'visible' : 'hidden'}`}
               />
             </div>
             <div className="introduction">
@@ -245,3 +253,4 @@ export default function Home() {
     </>
   );
 }
+
